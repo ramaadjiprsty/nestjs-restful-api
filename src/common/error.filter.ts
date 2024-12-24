@@ -8,11 +8,11 @@ import { ZodError } from 'zod';
 
 @Catch(ZodError, HttpException)
 export class ErrorFilter implements ExceptionFilter {
-  catch(exception: any, host: ArgumentsHost): any {
+  catch(exception: any, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse();
 
     if (exception instanceof HttpException) {
-      response.status(exception.getResponse()).json({
+      response.status(exception.getStatus()).json({
         errors: exception.getResponse(),
       });
     } else if (exception instanceof ZodError) {
@@ -21,7 +21,7 @@ export class ErrorFilter implements ExceptionFilter {
       });
     } else {
       response.status(500).json({
-        errors: exception.message,
+        errors: exception.messages,
       });
     }
   }
