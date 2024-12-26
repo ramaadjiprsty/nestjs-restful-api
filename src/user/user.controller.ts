@@ -38,7 +38,7 @@ export class UserController {
   @Get('/current')
   @HttpCode(200)
   async get(@Auth() user: User): Promise<WebResponse<UserResponse>> {
-    const result = await this.userService.login(user);
+    const result = await this.userService.get(user);
     return {
       data: result,
     };
